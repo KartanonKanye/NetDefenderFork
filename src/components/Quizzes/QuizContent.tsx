@@ -114,7 +114,7 @@ const Week3Quiz: QuizQuestion[] = [
   {
     id: 2, 
     question: 'What is a digital signature?',
-    options: ['Writing your name electronically.', 'Crytographic technique to verify the identity of a sender.', 'Public key to encrypt an email.'],
+    options: ['Writing your name electronically.', 'Cryptographic technique to verify the identity of a sender.', 'Public key to encrypt an email.'],
     correctAnswer: 'Cryptographic technique to verify the identity of a sender.',
     explanation: 'A message is encrypted with sender\'s private key. Receiver can decrypt it with sender\'s known public key, verifying that the message came from sender.'
   },

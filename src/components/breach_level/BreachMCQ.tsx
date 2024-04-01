@@ -37,7 +37,7 @@ const breachMCQs: LevelQuestion[] = [
   {
     id: 4,
     question: "[You receive an auto-reply from Bob's email, saying he's on vacation.]... Bob's account just started making calls to the server from another machine.",
-    options: {'Restrict access privileges of all users': false, 'Restrict the access privileges of this one user': true},
+    options: {'Restrict access privileges of all users': false, 'Restrict the access privileges of Bob\'s account': true},
     correctResponse: "Good choice, Bob's account is probably been hijacked. This way, it can't make server requests anymore.",
     wrongResponse: "All users will be restricted, which may affect normal work. Unfortunately, we can't restrict MediCorp's data access like that. For now, let's reduce Bob's privileges and see if the requests stop."
   },
