@@ -10,7 +10,7 @@ import { IUserAuthData } from '../services/loginService';
 import Tutorial from '../pages/Tutorial';
 import LevelView from '../components/LevelView';
 
-const releaseDates = [new Date(2024, 2, 12), new Date(2024, 2, 18), new Date(2024, 2, 24), new Date(2024, 2, 27)];
+const releaseDates = [new Date(2024, 2, 12), new Date(2024, 2, 18), new Date(2024, 3, 6), new Date(2024, 3, 12)];
 const currentDate = new Date();
 
 const Home = ({

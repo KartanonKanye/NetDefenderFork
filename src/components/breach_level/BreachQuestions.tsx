@@ -3,23 +3,22 @@ import {
   Box,
   Button,
   ButtonGroup,
-  Step,
-  StepIndicator,
-  StepSeparator,
-  StepStatus,
-  Stepper,
-  useSteps,
-  Grid,
-  GridItem,
-  Icon,
-  useToast
+  useToast,
 } from '@chakra-ui/react';
 
 import { useNavigate } from 'react-router-dom';
 import userDataService from '../../services/userDataService';
 import { LevelQuestion } from './BreachMCQ';
 
-const QuestionTask = ({ quiz }: { quiz: LevelQuestion[] }) => {
+const QuestionTask = ({
+  quiz,
+  weekNumber,
+  taskID
+}: {
+  quiz: LevelQuestion[];
+  weekNumber: number;
+  taskID: string;
+}) => {
   const alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g'];
   const breachMCQs: LevelQuestion[] = quiz;
   const ogButtonColors = Array.from({ length: breachMCQs.length }, () => ({
@@ -43,45 +42,6 @@ const QuestionTask = ({ quiz }: { quiz: LevelQuestion[] }) => {
 
   const toast = useToast();
   const navigate = useNavigate();
-  // icon for stepper
-  const CircleIcon = (props: any) => (
-    <Icon viewBox="0 0 200 200" {...props}>
-      <path fill="currentColor" d="M 100, 100 m -75, 0 a 75,75 0 1,0 150,0 a 75,75 0 1,0 -150,0" />
-    </Icon>
-  );
-
-  const steps = Array.from({ length: breachMCQs.length }, () => ({ title: 'step', description: 'step' }));
-  const [stepColors, setStepColors] = useState(
-    Array.from({ length: breachMCQs.length }, () => ({ border: 'game.white', fill: 'game.black' }))
-  );
-
-  function Steps() {
-    const { activeStep, setActiveStep } = useSteps({
-      index: currentQuestionIndex,
-      count: steps.length
-    });
-
-    return (
-      <Stepper size="md" index={activeStep} gap="0">
-        {steps.map(
-          (
-            step,
-            index // eslint-disable-line // eslint-disable-next-line
-          ) => (
-            <Step key={index}>
-              <StepIndicator>
-                <StepStatus
-                  complete={<CircleIcon boxSize={8} color={stepColors[index].fill} />}
-                  active={<CircleIcon boxSize={8} color={stepColors[index].fill} />}
-                />
-              </StepIndicator>
-              <StepSeparator />
-            </Step>
-          )
-        )}
-      </Stepper>
-    );
-  }
 
   // Player has selected one of the answer options
   const handleOptionSelect = (option: any, index: number) => {
@@ -117,30 +77,22 @@ const QuestionTask = ({ quiz }: { quiz: LevelQuestion[] }) => {
   // Checking if the answer is correct
   const isCorrect = () => {
     if (selectedOption != null) {
-      if (selectedOption == currentQuestion.correctAnswer) {
+      if (currentQuestion.options[selectedOption]) {
         setScore(score + 1);
         setButtonColors((prevColors) => {
           const updatedColors = [...prevColors];
-          updatedColors[selectedIndex].border = 'game.green';
+          updatedColors[selectedIndex].border = 'game.gray';
           updatedColors[selectedIndex].fill = 'game.black';
           updatedColors[selectedIndex].text_color = 'game.white';
           return updatedColors;
-        });
-        setStepColors(() => {
-          stepColors[currentQuestionIndex].fill = 'game.green';
-          return stepColors;
         });
       } else {
         setButtonColors((prevColors) => {
           const updatedColors = [...prevColors];
-          updatedColors[selectedIndex].border = 'game.red';
+          updatedColors[selectedIndex].border = 'game.gray';
           updatedColors[selectedIndex].fill = 'game.black';
           updatedColors[selectedIndex].text_color = 'game.white';
           return updatedColors;
-        });
-        setStepColors(() => {
-          stepColors[currentQuestionIndex].fill = 'game.red';
-          return stepColors;
         });
       }
       setButtonStage('next');
@@ -158,6 +110,7 @@ const QuestionTask = ({ quiz }: { quiz: LevelQuestion[] }) => {
           bg="game.white"
           color="game.black"
           borderRadius="0px"
+          marginTop="10"
           _hover={{ color: 'game.black', bg: 'game.white' }}
         >
           Choose
@@ -173,6 +126,7 @@ const QuestionTask = ({ quiz }: { quiz: LevelQuestion[] }) => {
           bg="game.black"
           color="game.white"
           borderRadius="0px"
+          marginTop="10"
           _hover={{ color: 'game.black', bg: 'game.white' }}
         >
           Next
@@ -187,6 +141,7 @@ const QuestionTask = ({ quiz }: { quiz: LevelQuestion[] }) => {
           bg="game.black"
           color="game.white"
           borderRadius="0px"
+          marginTop="10"
           _hover={{ color: 'game.black', bg: 'game.white' }}
         >
           Next
@@ -208,7 +163,6 @@ const QuestionTask = ({ quiz }: { quiz: LevelQuestion[] }) => {
         borderRadius="0px"
         marginTop="10"
         padding="5"
-        width="300px"
         justifyContent="start"
         _hover={{ color: 'game.black', bg: 'game.white' }}
         onClick={() => handleOptionSelect(option, index)}
@@ -218,125 +172,88 @@ const QuestionTask = ({ quiz }: { quiz: LevelQuestion[] }) => {
     );
   };
 
-  const handleLevelComplete = async () => {
-    const userAuthDataJSON = window.localStorage.getItem('userAuthDataJSON');
-    if (userAuthDataJSON) {
-      const user = JSON.parse(userAuthDataJSON);
-      const userAuthData = user;
-      const userData = await userDataService.getUserData({
-        userId: userAuthData.user_id,
-        userToken: userAuthData.token
-      });
-      if (!userData.levels[0][0].completed) {
-        const updatedUserData = userData;
-        updatedUserData.levels[0][0].completed = true;
-        updatedUserData.points = userData.points + userData.levels[0][0].points;
-        await userDataService.updateUserData({
-          userId: userAuthData.user_id,
-          userToken: userAuthData.token,
-          userData: updatedUserData
-        });
-      }
+  // sends data about level to api
+  // calls function in userDataService that makes changes to database
+  const handleLevelSubmit = async () => {
+
+    // amount refers to the percentage of questions answered correctly
+    // this affects the amount of points obtained by the user
+    const amount = score / breachMCQs.length;
+
+    const success = await userDataService.handleLevelComplete({weekNumber, taskID, amount});
+    
+    if (success) {
       toast({
         title: 'Good job!',
         status: 'success',
-        duration: 3500
+        duration: 1500
       });
-      setTimeout(() => {
-        navigate('/');
-      }, 3500);
+    } else {
+      toast({
+        title: 'Error adding points.',
+        status: 'error',
+        duration: 1500
+      });
     }
+
+    setTimeout(() => {
+      navigate('/');
+    }, 1500);
   };
+
+  const response = (): string  => {
+    if (selectedOption !== null) {
+      if (currentQuestion.options[selectedOption]) {
+        return currentQuestion.correctResponse;
+      } else {
+        return currentQuestion.wrongResponse;
+      }
+    } else {
+      return "Please select a valid option."
+    }
+  }
 
   const chooseView = () => {
     if (screenStage == 'question') {
       return (
-        <Grid
-          templateAreas={'"question" "answers" "button" "steps"'}
-          templateRows={'30% 30% 10% 1fr'}
-          templateColumns={'auto'}
-          w="100vw"
-          height="100vh"
-          gap="2"
-        >
-          <GridItem area={'question'} justifySelf="center" alignSelf="end" w="50%" border="0px" borderColor="grey">
-            <Box fontSize="22" textAlign="center">
-              {currentQuestionIndex + 1}. {currentQuestion.question}{' '}
-            </Box>
-          </GridItem>
-          <GridItem area={'answers'} justifySelf="center" alignSelf="center" border="0px" borderColor="grey">
-            <ButtonGroup flexDir="column" alignItems="end">
-              {currentQuestion.options.map((option: string, index: number) => answerButton(option, index))}
-            </ButtonGroup>
-          </GridItem>
-          <GridItem area={'button'} alignSelf="end" justifySelf="center" border="0px" borderColor="grey">
-            {chooseButton()}
-          </GridItem>
-          <GridItem
-            area={'steps'}
-            alignSelf="end"
-            justifySelf="center"
-            w="600px"
-            marginBottom="20"
-            border="0px"
-            borderColor="grey"
+        <Box display="flex" flexDir="column" alignItems="center" justifyContent="center" h="100vh">
+          <Box
+            border="4px"
+            borderColor="game.white"
+            width={['80vw', '80vw', '60vw']}
+            display="flex"
+            flexDir="column"
+            alignItems="center"
           >
-            <Steps />
-          </GridItem>
-        </Grid>
-      );
+            <Box padding="10" fontSize="20">
+              {currentQuestion.question}
+            </Box>
+            <ButtonGroup flexDir="column" alignItems="start" paddingBottom="10">
+              {Object.keys(currentQuestion.options).map((option: string, index: number) => answerButton(option, index))}
+            </ButtonGroup>
+          </Box>
+          {chooseButton()}
+        </Box>
+      )
     }
     if (screenStage == 'information') {
       return (
-        <Grid
-          templateAreas={'"question explanation" "question explanation" "button button" "steps steps"'}
-          templateRows={'30% 30% 10% 1fr'}
-          templateColumns={'50% 1fr'}
-          w="100vw"
-          height="100vh"
-          gap="2"
-        >
-          <GridItem area={'question'} justifySelf="center" border="0px" borderColor="grey">
-            <Box display="flex" flexDir="column" alignItems="center" paddingTop="20" paddingLeft="15">
-              <Box textAlign="center" fontSize="22">
-                {currentQuestionIndex + 1}. {currentQuestion.question}
-              </Box>
-              <Box
-                border="2px"
-                borderColor="game.green"
-                marginTop="10"
-                paddingLeft="5"
-                paddingTop="2"
-                paddingBottom="2"
-                width="300px"
-                textAlign="start"
-                alignSelf="center"
-              >
-                {alphabet[currentQuestion.options.indexOf(currentQuestion.correctAnswer)]}.{' '}
-                {currentQuestion.correctAnswer}
-              </Box>
-            </Box>
-          </GridItem>
-          <GridItem area={'explanation'} justifySelf="center" border="0px" borderColor="grey">
-            <Box whiteSpace="pre-wrap" paddingTop="20" paddingLeft="10" paddingRight="20">
-              {currentQuestion.response}
-            </Box>
-          </GridItem>
-          <GridItem area={'button'} alignSelf="end" justifySelf="center" border="0px" borderColor="grey">
-            <Box>{chooseButton()}</Box>
-          </GridItem>
-          <GridItem
-            area={'steps'}
-            alignSelf="end"
-            justifySelf="center"
-            w="600px"
-            marginBottom="20"
-            border="0px"
-            borderColor="grey"
+        <Box display="flex" flexDir="column" alignItems="center" justifyContent="center" h="100vh">
+          <Box
+            border="4px"
+            borderColor="game.white"
+            width={['80vw', '80vw', '60vw']}
+            display="flex"
+            flexDir="column"
+            alignItems="center"
+            padding="10"
           >
-            <Steps />
-          </GridItem>
-        </Grid>
+            <Box padding="10" fontSize="20">
+              {response()}
+            </Box>
+            {chooseButton()}
+          </Box>
+        </Box>
       );
     }
     if (screenStage == 'end') {
@@ -350,7 +267,7 @@ const QuestionTask = ({ quiz }: { quiz: LevelQuestion[] }) => {
               Correct answers: {score}/{breachMCQs.length}
             </Box>
           </Box>
-          <Button border="2px" m="5em 0 0 0" borderRadius="0px" onClick={handleLevelComplete}>
+          <Button border="2px" m="5em 0 0 0" borderRadius="0px" onClick={handleLevelSubmit}>
             Main menu
           </Button>
         </Box>
