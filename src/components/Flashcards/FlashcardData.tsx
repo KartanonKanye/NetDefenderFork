@@ -241,5 +241,58 @@ const week3_end_point_auth: FlashcardContent[] = [
   }
 ]
 
+const week4_email: FlashcardContent[] = [
+  {
+    id: 1,
+    title: 'End-point Authentication',
+    content: 'Authentication is difficult in networks, since the other party is "invisible".'
+  },
+  {
+    id: 2,
+    title: 'End-point Authentication - vulnerabilities',
+    content: 'Man-in-the-middle or replay attacks are possible.'
+  },
+  {
+    id: 3,
+    title: 'End-point Authentication - solution',
+    content: 'The solution to this is Certified Authorities (CAs).' },
+  {
+    id: 4,
+    title: 'Certified Authority (CA)',
+    content: 'Certified Authority (CA) is a trusted third-party that generates a certificate to verify the sender\'s public key.' 
+  },
+  {
+    id: 5,
+    title: 'Certified Authority - method',
+    content: 'Receiver can use a CA-issued certificate, along with the sender\'s public key to authenticate the sender of a message.'
+  }
+]
 
-export { week1_attacks, week1_crypto, week2_crypto, week2_packets, week2_message_integrity, week3_digital_signatures, week3_end_point_auth };
+const week4_tcp: FlashcardContent[] = [
+  {
+    id: 1,
+    title: 'End-point Authentication',
+    content: 'Authentication is difficult in networks, since the other party is "invisible".'
+  },
+  {
+    id: 2,
+    title: 'End-point Authentication - vulnerabilities',
+    content: 'Man-in-the-middle or replay attacks are possible.'
+  },
+  {
+    id: 3,
+    title: 'End-point Authentication - solution',
+    content: 'The solution to this is Certified Authorities (CAs).' },
+  {
+    id: 4,
+    title: 'Certified Authority (CA)',
+    content: 'Certified Authority (CA) is a trusted third-party that generates a certificate to verify the sender\'s public key.' 
+  },
+  {
+    id: 5,
+    title: 'Certified Authority - method',
+    content: 'Receiver can use a CA-issued certificate, along with the sender\'s public key to authenticate the sender of a message.'
+  }
+]
+
+export { week1_attacks, week1_crypto, week2_crypto, week2_packets, week2_message_integrity, week3_digital_signatures, week3_end_point_auth, week4_email, week4_tcp };

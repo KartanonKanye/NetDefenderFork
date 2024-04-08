@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Box, Button } from '@chakra-ui/react';
 import RenderQuiz from './RenderQuiz.tsx'
-import { Week1Quiz, Week2Quiz, Week3Quiz } from './QuizContent.tsx';
+import { Week1Quiz, Week2Quiz, Week3Quiz, Week4Quiz } from './QuizContent.tsx';
 import { QuizQuestion } from './QuizContent.tsx';
 
 const Quiz = ({ weekNumber, taskID }: { weekNumber: number; taskID: string }) => {
@@ -13,7 +13,7 @@ const Quiz = ({ weekNumber, taskID }: { weekNumber: number; taskID: string }) =>
     if (weekNumber === 1) {questions = Week1Quiz;}
     else if (weekNumber === 2) {questions = Week2Quiz;}
     else if (weekNumber === 3) {questions = Week3Quiz;}
-    // else if (weekNumber === 4) {questions = Week4Quiz;}
+    else if (weekNumber === 4) {questions = Week4Quiz;}
     // else {questions = Week5Quiz;}
   }
 
