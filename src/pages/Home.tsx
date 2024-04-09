@@ -103,10 +103,12 @@ const Home = ({
             />
           </Box>
         );
-      } else if (
-        levelData[i - 2].every((level) => level.completed) &&
-        currentDate.getTime() > releaseDates[i - 2].getTime()
-      ) {
+      } 
+      // else if (
+      //   levelData[i - 2].every((level) => level.completed) &&
+      //   currentDate.getTime() > releaseDates[i - 2].getTime()
+      // ) 
+      else if ( currentDate.getTime() > releaseDates[i - 2].getTime()) {
         return (
           <Box
             onClick={() => {

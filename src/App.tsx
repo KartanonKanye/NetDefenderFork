@@ -165,7 +165,15 @@ const App = () => {
             element={<Flashcard content={FlashcardData.week4_tcp} weekNumber={4} taskID={'flashcards4-tcp'} />}
           />
           <Route path="quiz4" element={<Quiz weekNumber={4} taskID={'quiz4'} />} />
-          <Route path="task4" element={<BreachLevel username={userAuthData.username} weekNumber={3} taskID={'task3'} />} />
+          <Route
+            path="flashcards5-ipsec"
+            element={<Flashcard content={FlashcardData.week5_ipsec} weekNumber={5} taskID={'flashcards5-ipsec'} />}
+          />
+          <Route
+            path="flashcards5-vpn"
+            element={<Flashcard content={FlashcardData.week5_firewalls} weekNumber={5} taskID={'flashcards5-vpn'} />}
+          />
+          <Route path="quiz5" element={<Quiz weekNumber={5} taskID={'quiz5'} />} />
         </Route>
         <Route path="sandbox" element={<Sandbox />} />
         <Route
