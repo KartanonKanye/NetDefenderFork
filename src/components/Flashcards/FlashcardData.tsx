@@ -244,55 +244,65 @@ const week3_end_point_auth: FlashcardContent[] = [
 const week4_email: FlashcardContent[] = [
   {
     id: 1,
-    title: 'End-point Authentication',
-    content: 'Authentication is difficult in networks, since the other party is "invisible".'
+    title: 'Securing Email',
+    content: 'Securing email focuses on the top three OSI layers (Application, Presentation and Session) or the top layer in TCP/IP stack (Application).'
   },
   {
     id: 2,
-    title: 'End-point Authentication - vulnerabilities',
-    content: 'Man-in-the-middle or replay attacks are possible.'
+    title: 'Desired Properties of Secure Email',
+    content: 'Confidentiality, Sender Authentication, Message Integrity, Receiver Authentication'
   },
   {
     id: 3,
-    title: 'End-point Authentication - solution',
-    content: 'The solution to this is Certified Authorities (CAs).' },
+    title: 'PGP',
+    content: 'Pretty Good Privacy (PGP) is an encryption method using for signing, encrypting, and decrypting data. It is commonly used to sign and encrypt email communication.' },
   {
     id: 4,
-    title: 'Certified Authority (CA)',
-    content: 'Certified Authority (CA) is a trusted third-party that generates a certificate to verify the sender\'s public key.' 
+    title: 'PGP - Web of Trust',
+    content: 'PGP implements the Web of Trust model, where a party can have trusted contacts. They accumulate the public keys of other parties that they trust, and can verify the identities of their trusted contacts.' 
   },
   {
     id: 5,
-    title: 'Certified Authority - method',
-    content: 'Receiver can use a CA-issued certificate, along with the sender\'s public key to authenticate the sender of a message.'
+    title: 'PGP - Chains of Trust',
+    content: 'Parties can see the trusted contacts of their trusted contacts. This allows for chains of trust. In this way, there can be different levels of trust in unknown parties, depending on whether they are trusted by your contacts.'
+  },
+  {
+    id: 6,
+    title: 'PGP - Benefits',
+    content: 'PGP is decentralized, allows for digital signatures and end-to-end encryption and decryption of communications, such as emails.'
   }
 ]
 
 const week4_tcp: FlashcardContent[] = [
   {
     id: 1,
-    title: 'End-point Authentication',
-    content: 'Authentication is difficult in networks, since the other party is "invisible".'
+    title: 'TCP',
+    content: 'Transmission Control Protocol is a communications standard that allows for exchanging connections over a network. It involves the Transport layer of the OSI model or TCP/IP stack.'
   },
   {
     id: 2,
-    title: 'End-point Authentication - vulnerabilities',
-    content: 'Man-in-the-middle or replay attacks are possible.'
+    title: 'Desired Properties of Secure TCP',
+    content: 'Confidentiality, Data Integrity, End-Point Authentication'
   },
   {
     id: 3,
-    title: 'End-point Authentication - solution',
-    content: 'The solution to this is Certified Authorities (CAs).' },
+    title: 'SSL / TLS',
+    content: 'Secure Sockets Layer is a security protocol which implements the desired properties of Secure TCP connections. Transport Layer Security is a modified version of SSL v3, standardized by the Internet Engineering Task Force (IETF).' },
   {
     id: 4,
-    title: 'Certified Authority (CA)',
-    content: 'Certified Authority (CA) is a trusted third-party that generates a certificate to verify the sender\'s public key.' 
+    title: 'SSL Handshake',
+    content: 'In SSL, a handshake occurs when two parties attempt to connect. First, a TCP connection is established. Then, the identity of the communication partner is verified. Finally, a master key is generated.' 
   },
   {
     id: 5,
-    title: 'Certified Authority - method',
-    content: 'Receiver can use a CA-issued certificate, along with the sender\'s public key to authenticate the sender of a message.'
-  }
+    title: 'How SSL works',
+    content: 'SSL breaks the data stream into slices. Message Authentication Codes are created for integrity. The data slices are encrypted, along with the MAC, using the Master Key. This is then passed over TCP to the communication partner.'
+  },
+  {
+    id: 6,
+    title: 'Security Features of SSL',
+    content: 'Nonces are used to prevent connection replay attacks. Message Authentication Codes of all handshake messages are calculated to protect the handshake from being tampered with. "SSL connection close" is used, in addition to "TCP FIN" messages to prevent truncation attacks - where an attacker can close a connection before it is actually finished.' 
+  },
 ]
 
 export { week1_attacks, week1_crypto, week2_crypto, week2_packets, week2_message_integrity, week3_digital_signatures, week3_end_point_auth, week4_email, week4_tcp };
