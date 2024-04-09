@@ -126,7 +126,7 @@ const Week3Quiz: QuizQuestion[] = [
     explanation: 'Certified Authority (CA) is a trusted third-party that generates a certificate to verify the sender\'s public key.'
   },
   {
-    id: 1, 
+    id: 4, 
     question: 'How do Certified Authorities help with end-point authentication?',
     options: ['Receiver can use copy of sender\'s private key to decrypt message', 'Receiver can use a CA-issued certificate, along with the sender\'s public key to authenticate the sender of a message.', 'Certified Authorities use a MAC to encrypt a sender\'s message'],
     correctAnswer: 'Receiver can use a CA-issued certificate, along with the sender\'s public key to authenticate the sender of a message.',
@@ -134,5 +134,50 @@ const Week3Quiz: QuizQuestion[] = [
   },
 ];
 
+const Week4Quiz: QuizQuestion[] = [
+  {
+    id: 1, 
+    question: 'Why are nonces used in SSL?',
+    options: ['To protect handshake from tampering', 'To prevent connection replay attacks', 'MACs are too large in size', 'To prevent truncation attacks'],
+    correctAnswer: 'To prevent connection replay attacks',
+    explanation: 'A replay attack involves an attacker capturing valid network transmission. The aim is to trick the system into accepting this transmission as a valid one, at a later time. By using nonces, each valid transmission can only be performed once, as a new nonce will be generated every time.'
+  },
+  {
+    id: 2, 
+    question: 'Why are MACs computed for all handshake messages?',
+    options: ['To protect handshake from tampering', 'To prevent connection replay attacks', 'MACs are too large in size', 'To prevent truncation attacks'],
+    correctAnswer: 'To protect handshake from tampering',
+    explanation: 'During the SSL handshake, the client and server exchange messages to negotiate parameters, authenticate each other, and establish a secure connection. In order to ensure that messages have not been tampered in transit and to authorize both parties, MACs are computed for all handshake messages. '
+  },
+  {
+    id: 3, 
+    question: 'Why is "SSL connection close" needed, in addition to TCP FIN?',
+    options: ['To protect handshake from tampering', 'To prevent connection replay attacks', 'MACs are too large in size', 'To prevent truncation attacks'],
+    correctAnswer: 'To prevent truncation attacks',
+    explanation: 'It is possible for an attacker to close the connection before it is actually finished, via a truncation attack. This is done by inserting a TCP code into a message, indicating the message has finished, thus preventing the recipient picking up the rest of the message. Requiring "SSL Connection Close" prevents against this type of attack.'
+  },
+  {
+    id: 4, 
+    question: 'What is implemented as a protection against packet re-ordering?',
+    options: ['Message Authentication Codes (MACs)', 'Sequence Numbers', 'Secure Sockets Layer (SSL)', 'Packet Sniffing'],
+    correctAnswer: 'Sequence Numbers',
+    explanation: 'Packets can get lost or arrive out of the intended order. Sequence numbers allows packets to be rearranged into the correct order at the destination, if they arrive out-of-order.'
+  },
+  {
+    id: 5, 
+    question: 'Which of the following is not part of the SSL handshake?',
+    options: ['Establishing TCP connection', 'Generating a Master Key', 'Truncating and re-ordering packets', 'Verifying identity of communication partner'],
+    correctAnswer: 'Truncating and re-ordering packets',
+    explanation: 'The SSL handshake involves establishing a TCP connection, verifying the identity of the communication partner and generating a master key'
+  },
+  {
+    id: 6, 
+    question: 'Which of the following is not a feature of PGP?',
+    options: ['Utilizes the Web of Trust model', 'It is decentralized', 'Messages are encrypted and signed', 'A user can only send messages to their trusted contacts'],
+    correctAnswer: 'A user can only send messages to their trusted contacts',
+    explanation: 'PGP utilizes the Web of Trust model, meaning that users can have trusted contacts. This model also allows users to see trusted contacts of their trusted contacts. As such, users can verify and send messages to others outside of their trusted contacts, by relying on chains of trust.'
+  },
+];
+
 export type { QuizQuestion };
-export { Week1Quiz, Week2Quiz, Week3Quiz };
+export { Week1Quiz, Week2Quiz, Week3Quiz, Week4Quiz };
