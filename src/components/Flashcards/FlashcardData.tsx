@@ -305,4 +305,90 @@ const week4_tcp: FlashcardContent[] = [
   },
 ]
 
-export { week1_attacks, week1_crypto, week2_crypto, week2_packets, week2_message_integrity, week3_digital_signatures, week3_end_point_auth, week4_email, week4_tcp };
+const week5_ipsec: FlashcardContent[] = [
+  {
+    id: 1,
+    title: 'IPsec',
+    content: 'IP security (IPsec) takes place in the Network layer of the OSI model or Internet layer of the TCP/IP stack',
+  },
+  {
+    id: 2,
+    title: 'Desired Properties of IPsec',
+    content: 'Confidentiality, Authentication, Data Integrity, Replay-attack prevention',
+  },
+  {
+    id: 3,
+    title: 'Private Networks',
+    content: 'Private Networks (PNs) are standalone physical networks including routers, links and DNS infrastructure. They are separated from the internet, which can lead to high maintenance costs.',
+  },
+  {
+    id: 4,
+    title: 'Virtual Private Networks (VPNs)',
+    content: 'Virtual Private Networks are similar to PNs, except their traffic gets sent over the public internet, instead of a physical network. In IPsec, the secure payloads are encapsulated with an IPsec header, instead of a standard IP packet.',
+  },
+  {
+    id: 5,
+    title: 'Security Associations',
+    content: 'Senders and receivers create network layer directional logical connections, known as a Security Associations (SAs). The state of the SA is maintained at origin and destination for session management.',
+  },
+  {
+    id: 6,
+    title: 'Constructing an IPsec datagram',
+    content: 'First, an ESP trailer is attached to an original IPv4 datagram. Then, this is encrypted using the algorithm and key specified by the SA. The ESP header is attached to th e payload and a MAC for the whole payload is created. Finally, a new IPsec header is created.',
+  },
+  {
+    id: 7,
+    title: 'Key Management in IPsec',
+    content: 'IPsec uses Internet Key Exchange (IKE). Each entity had certificate and public key. First, a master key is established through bi-directional IKE SA via Diffie-Hellman. Then, messages are signed, so they can be authenticated. The SA keys are computed from the master secret. Finally, encryption and authentication algorithms can be negotiated.',
+  },
+  {
+    id: 8,
+    title: 'Diffie-Hellman Key Exchange - Steps',
+    content: 'Both parties publicly agree on a modulus and a base and individually choose a secret. They perform modular arithmetic using the modular, base and secret and send the result to the other party. Each party then performs modular arithmetic on the received value. In this way, they each derive a key which can be used to encrypt and decrypt messages to each other.',
+  }
+]
+
+const week5_firewalls: FlashcardContent[] = [
+  {
+    id: 1,
+    title: 'Firewalls',
+    content: 'Firewalls isolate local networks from the internet. Only authorized traffic passes through the firewall; non-authorized traffic is dropped. A firewall should be immune to penetration.',
+  },
+  {
+    id: 2,
+    title: 'Categories of Firewalls',
+    content: 'There are three categories of firewalls: Packet filters, Stateful filters and Application gateways.',
+  },
+  {
+    id: 3,
+    title: 'Packet Filters',
+    content: 'In packet filters, a gateway router examines each datagram in isolation. There can be administrator-defined rules for passing or dropping of traffic. Filtering decisions can be based on IP source/destination, protocol type, source/destination port, or ICMP message type, among others.',
+  },
+  {
+    id: 4,
+    title: 'Stateful Filters',
+    content: 'Stateful filters track all ongoing TCP traffic in a connection table. These aim to solve some of the vulnerabilities of stateless filters. For example, in stateless filters, packets with malformatted packets may get through filter and can be used to crash local systems.',
+  },
+  {
+    id: 5,
+    title: 'Application Gateways',
+    content: 'Application Gateways allow application specific rules for selected users. They can make policy decisions based on application data or take data based on IP/TCP/UDP headers. It is essentially an application-specific server, which all data must pass through and where user authorization is performed.',
+  },
+  {
+    id: 6,
+    title: 'Application Gateways - Downside',
+    content: 'Since all traffic must pass through the application gateway, there is a performance penalty in the system. This could serve as a bottleneck, causing traffic to take longer to get from source and destination.',
+  },
+  {
+    id: 7,
+    title: 'Intrusion Detection Systems (IDS)',
+    content: 'Intrusion Detection Systems monitor network traffic for suspicious or known malicious activity. For many attack types, deep packet inspection is needed. This may involve looking beyond header fields and into actual application data carried by packets.',
+  },
+  {
+    id: 8,
+    title: 'Intrusion Detection Systems (IDS)',
+    content: 'IDSs detect a wide range of attacks including network mapping, port scans, TCP stack scans, DoS bandwidth flooding attacks, worms, virused and OS/application vulnerabily attacks. IDS systems are either signature-based or anomaly-based.',
+  },
+]
+
+export { week1_attacks, week1_crypto, week2_crypto, week2_packets, week2_message_integrity, week3_digital_signatures, week3_end_point_auth, week4_email, week4_tcp, week5_ipsec, week5_firewalls };

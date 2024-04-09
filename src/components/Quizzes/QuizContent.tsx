@@ -179,5 +179,50 @@ const Week4Quiz: QuizQuestion[] = [
   },
 ];
 
+const Week5Quiz: QuizQuestion[] = [
+  {
+    id: 1, 
+    question: 'How do Private Networks (PNs) and Virtual Private Networks (VPNs) differ?',
+    options: ['PN traffic goes through public internet', 'VPNs implement physical networks with routers, links and DNS infrastructure', 'VPN traffic goes through the public internet', 'PN incorporates Diffie-Hellman key exchange'],
+    correctAnswer: 'VPN traffic goes through the public internet',
+    explanation: 'VPN traffic is transmitted via the public internet, eliminating the need for physical network infrastructure and their high maintenance costs.'
+  },
+  {
+    id: 2, 
+    question: 'What is a benefit of using Stateful Filters?',
+    options: ['It implements user authentication states in an application', 'It identifies packets that might get through stateless filters and cause harm to system', 'It allows application-specific rules for different users'],
+    correctAnswer: 'It identifies packets that might get through stateless filters and cause harm to system',
+    explanation: 'For example, packets with ACK=1 and source port 80 get through the filter and could be used to crash local systems with malformed ACK packets.'
+  },
+  {
+    id: 3, 
+    question: 'What is implemented during IPsec key management?',
+    options: ['Diffie-Hellman key exchange', 'PGP', 'Web of Trust', 'Secure Sockets Layer (SSL)'],
+    correctAnswer: 'Diffie-Hellman key exchange',
+    explanation: 'Diffie-Hellman key exchange is implemented to establish a master key between entities. This takes place as a bi-directional Internet Key Exchange (IKE) Security Association (SA).'
+  },
+  {
+    id: 4, 
+    question: 'What is a disadvantage of using Application Gateways?',
+    options: ['Malformatted packets can get through filter and cause harm to system', 'Performance is negatively affected, since all traffic must go through', 'Allows application-specific rules for differrent users', 'Implements user authentication states in an application'],
+    correctAnswer: 'Performance is negatively affected, since all traffic must go through',
+    explanation: 'This can serve as a bottleneck in systems, causing traffic to take more time before it gets to the destination.'
+  },
+  {
+    id: 5, 
+    question: 'Which of the following is not a step in Diffie-Hellman key exchange?',
+    options: ['Both parties publicly agree and choose a secret', 'One party sets a packet header bit, so that it might get through a stateless filter', 'Each party performs modular arithmetic using the modulus, base and secret and send it to the other party', 'Each party derives a key which can be used to encrypt messages to each other'],
+    correctAnswer: 'One party sets a packet header bit, so that it might get through a stateless filter',
+    explanation: 'In Diffie-Hellman key exchange, both parties publicly agree on a modulus and a base and individually choose a secret. They perform modular arithmetic using the modular, base and secret and send the result to the other party. Each party then performs modular arithmetic on the received value. In this way, they each derive a key which can be used to encrypt and decrypt messages to each other.'
+  },
+  {
+    id: 6, 
+    question: 'Which of the following is not a type of firewall?',
+    options: ['Application Gateway', 'Stateful filter', 'Packet Filter', 'Port-forwarding'],
+    correctAnswer: 'Port-forwarding',
+    explanation: 'There are three categories of firewalls: Packet filters, Stateful filters and Application gateways.'
+  },
+]
+
 export type { QuizQuestion };
-export { Week1Quiz, Week2Quiz, Week3Quiz, Week4Quiz };
+export { Week1Quiz, Week2Quiz, Week3Quiz, Week4Quiz, Week5Quiz };
