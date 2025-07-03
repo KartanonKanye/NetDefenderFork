@@ -6,30 +6,6 @@ interface QuizQuestion {
   explanation: string;
 }
 
-const testQuestions = [
-  {
-    id: 1,
-    question: 'Question 1: What is the capital of France?',
-    options: ['Paris', 'London', 'Berlin'],
-    correctAnswer: 'Paris',
-    explanation: 'Paris is the capital of France.'
-  },
-  {
-    id: 2,
-    question: 'Question 2: What is the largest planet in our solar system?',
-    options: ['Mars', 'Saturn', 'Jupiter'],
-    correctAnswer: 'Jupiter',
-    explanation: 'Jupiter is the largest planet in our solar system.'
-  },
-  {
-    id: 3,
-    question: 'Question 3: What is the symbol for the chemical element Iron?',
-    options: ['Fe', 'Au', 'Ag'],
-    correctAnswer: 'Fe',
-    explanation: 'The symbol for Iron is Fe.'
-  }
-];
-
 // explanation part needs to be changed
 const AttackQuestions: QuizQuestion[] = [
   {
@@ -76,7 +52,7 @@ const AttackQuestions: QuizQuestion[] = [
     options: ['IP Spoofing', 'End-point Authentication', 'Injecting packets', 'DDoS Attacks'],
     correctAnswer: 'End-point Authentication',
     explanation:
-      'If encrypted packets are intercepted, it is not easy to understand the information contained in them. This allows information to be kept safe from malicious third-parties.'
+      'End-point Authentication, when implemented correctly, ensures that the packets the receiver gets are legitimate.'
   }
 ];
 
