@@ -2,7 +2,7 @@ import axios from 'axios';
 import { IStudent } from '../interfaces/Student';
 
 // url of server
-const baseUrl = 'https://netdefender.org.aalto.fi/api';
+const baseUrl = 'http://localhost:5050';
 
 // login credentials for user
 export interface ICredentials {

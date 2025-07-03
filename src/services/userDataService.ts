@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { IStudent } from '../interfaces/Student';
 
-const baseUrl = 'https://netdefender.org.aalto.fi/api/students/';
+const baseUrl = 'http://localhost:5050/students/';
 
 interface IGetUserDataProps {
   userId: string;
