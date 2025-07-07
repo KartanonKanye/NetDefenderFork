@@ -4,6 +4,7 @@ import { useState } from 'react';
 import * as FlashcardData from './FlashcardData';
 import userDataService from '../../services/userDataService';
 import { useNavigate } from 'react-router-dom';
+import { log } from 'console';
 
 // FlashcardContent is the format for each flashcard.
 // Each flashcard should have a title and the content of the flashcard, along with an id to identify it.
@@ -11,6 +12,16 @@ interface FlashcardContent {
   id: number;
   title: string;
   content: string;
+}
+
+async function changeLabel() {
+  const button = await document.querySelector('#NextButton');
+  if (button) {
+    button.innerHTML = 'Finish'
+  }
+  else {
+    console.log("button not found");
+  }
 }
 
 const Flashcard = ({
@@ -22,7 +33,7 @@ const Flashcard = ({
   weekNumber: number;
   taskID: string;
 }) => {
-  const [count, setCount] = useState(1);
+  var [count, setCount] = useState(0);
   const flashcards: FlashcardContent[] = content;
   const [flashcard, setFlashcard] = useState(flashcards[0]);
 
@@ -63,10 +74,6 @@ const Flashcard = ({
         status: 'success',
         duration: 1500
       });
-
-      setTimeout(() => {
-        navigate('/');
-      }, 1500);
     }
   };
 
@@ -75,7 +82,7 @@ const Flashcard = ({
       <Center h="100vh" w="100vw">
         <Box display="flex" flexDir="column" justifyContent="space-evenly" gap="4em" marginX="2em">
           <IconButton
-            onClick={handleLevelComplete}
+            onClick= {() => { navigate('/') }}
             icon={<ArrowBackIcon />}
             boxSize={10}
             border="1px"
@@ -100,30 +107,38 @@ const Flashcard = ({
             </CardBody>
           </Card>
           <Box display="flex" justifyContent="space-between">
-            <Button
+            <Button id = 'PreviousButton'
               w={['6em', '8em']}
               onClick={() => {
-                setCount(count - 1);
-
-                if (count <= 0) {
-                  setCount(flashcards.length - 1);
+                if (count >= 1) {
+                  count -= 1;
+                  setCount(count);
                 }
 
                 setFlashcard(flashcards[count]);
+                console.log(count);
+                
               }}
             >
               Previous
             </Button>
-            <Button
+            <Button id='NextButton'
               w={['6em', '8em']}
               onClick={() => {
-                setCount(count + 1);
-
-                if (count >= flashcards.length - 1) {
-                  setCount(0);
+                count += 1;
+                setCount(count);
+                if (count == flashcards.length - 1) {
+                  changeLabel();
+                  console.log("text should change");
+                  
                 }
-
+                if (count == flashcards.length) {
+                  handleLevelComplete();
+                  navigate('/');
+                }
                 setFlashcard(flashcards[count]);
+                console.log(count);
+                
               }}
             >
               Next
