@@ -17,7 +17,7 @@ import {
 
 import { useNavigate } from 'react-router-dom';
 import userDataService from '../../services/userDataService';
-import { QuizQuestion } from './MultipleChoiceQuestion';
+import { QuizQuestion } from '../Quizzes/QuizContent';
 
 const AttackQuestions = ({
   quiz,

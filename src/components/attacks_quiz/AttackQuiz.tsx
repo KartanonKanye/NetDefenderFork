@@ -1,11 +1,10 @@
 import { useState } from 'react';
 import { Box, Button } from '@chakra-ui/react';
-import Questions from './AttackQuestions.tsx';
-import { AttackQuestions } from './MultipleChoiceQuestion.tsx';
-import { QuizQuestion } from './MultipleChoiceQuestion.tsx';
+import { QuizQuestion } from '../Quizzes/QuizContent.tsx';
+import Questions from '../MS/Questions.tsx';
 
 const AttackQuiz = ({ weekNumber, taskID }: { weekNumber: number; taskID: string }) => {
-  const questions: QuizQuestion[] = AttackQuestions;
+  const questions: QuizQuestion[] = [];
   const [currentScreen, setCurrentScreen] = useState('startScreen');
 
   // Function to render the information on the screen.
