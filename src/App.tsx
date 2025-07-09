@@ -122,7 +122,7 @@ const App = () => {
       <>
         <Route path="/" element={<Home setUserAuthData={setUserAuthData} userAuthData={userAuthData} />}></Route>
         <Route path="level">
-          <Route path="quiz1" element={<AttackQuiz weekNumber={1} taskID={'quiz1'} />} />
+          <Route path="quiz1" element={<Quiz weekNumber={1} taskID={'quiz1'} />} />
           <Route path="task1" element={<CCEmail weekNumber={1} taskID={'task1'} />} />
           <Route
             path="flashcards1-attacks"
