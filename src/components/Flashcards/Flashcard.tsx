@@ -129,15 +129,12 @@ const Flashcard = ({
                 setCount(count);
                 if (count == flashcards.length - 1) {
                   changeLabel();
-                  console.log("text should change");
-                  
                 }
                 if (count == flashcards.length) {
                   handleLevelComplete();
                   navigate('/');
                 }
                 setFlashcard(flashcards[count]);
-                console.log(count);
                 
               }}
             >
