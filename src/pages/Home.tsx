@@ -84,56 +84,11 @@ const Home = ({
   const renderFolders = () => {
     // another option for storing folder data and then passing them into the folder components:
     // folderData = {1: {folderType: 'unlocked', name: 'Week 1', number/id: 1}
-    return levels.map((i: number) => {
-      if (i === 1) {
-        return (
-          <Box
-            onClick={() => {
-              setLevelToShow(1);
-              setShowLevel(!showLevel);
-            }}
-            cursor="pointer"
-          >
-            <Folder
-              showLevel={showLevel}
-              levelToShow={levelToShow}
-              folderType="unlocked"
-              name={`Week ${i}`}
-              number={i}
-            />
-          </Box>
-        );
-      } 
-      // else if (
-      //   levelData[i - 2].every((level) => level.completed) &&
-      //   currentDate.getTime() > releaseDates[i - 2].getTime()
-      // ) 
-      else if ( currentDate.getTime() > releaseDates[i - 2].getTime()) {
-        return (
-          <Box
-            onClick={() => {
-              setLevelToShow(i);
-              setShowLevel(!showLevel);
-            }}
-            cursor="pointer"
-          >
-            <Folder
-              showLevel={showLevel}
-              levelToShow={levelToShow}
-              folderType="unlocked"
-              name={`Week ${i}`}
-              number={i}
-            />
-          </Box>
-        );
-      } else {
-        return (
-          <Box>
-            <Folder showLevel={showLevel} levelToShow={levelToShow} folderType="locked" name={`Week ${i}`} number={i} />
-          </Box>
-        );
-      }
-    });
+    return (
+      <>
+      <p>Testing</p>
+      </>
+    )
   };
 
   if (showTutorial) {
