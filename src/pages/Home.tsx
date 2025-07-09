@@ -86,7 +86,17 @@ const Home = ({
     // folderData = {1: {folderType: 'unlocked', name: 'Week 1', number/id: 1}
     return (
       <>
-      <p>Testing</p>
+      <Flex gap={4}>
+      {levels.map(lvlnumber =>
+        <Box onClick={() => {
+              setLevelToShow(lvlnumber);
+              setShowLevel(!showLevel)
+            }}
+            cursor="pointer">
+              <Folder showLevel={showLevel} levelToShow={levelToShow} folderType='unlocked' name='test' number={lvlnumber}/>
+        </Box>
+      )}
+        </Flex>
       </>
     )
   };

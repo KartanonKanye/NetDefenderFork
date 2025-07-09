@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Box, Center, Flex, Text, Button, FormLabel, Textarea, useToast, FormControl } from '@chakra-ui/react';
 import React, { useState } from 'react';
 
-const LevelDjikstra =  ({weekNumber, taskID} : {weekNumber: number; taskID: string}) => {
+const LevelDijkstra =  ({weekNumber, taskID} : {weekNumber: number; taskID: string}) => {
     const navigate = useNavigate();
     const toast = useToast();
     return (
@@ -16,4 +16,4 @@ const LevelDjikstra =  ({weekNumber, taskID} : {weekNumber: number; taskID: stri
     )
 }
 
-export default LevelDjikstra
+export default LevelDijkstra
