@@ -24,6 +24,9 @@ const Home = ({
   const [userDataFetched, setUserDataFetched] = useState(false);
   const [showTutorial, setShowTutorial] = useState(false);
   const [showLevel, setShowLevel] = useState(false);
+  const [showPart1, setShowPart1] = useState(false);
+  const [showPart2, setShowPart2] = useState(false);
+
   // const [showMessages, setShowMessages] = useState(false);
   const [levelToShow, setLevelToShow] = useState(1);
   const levelData = userData.levels;
@@ -84,57 +87,46 @@ const Home = ({
   const renderFolders = () => {
     // another option for storing folder data and then passing them into the folder components:
     // folderData = {1: {folderType: 'unlocked', name: 'Week 1', number/id: 1}
-    return levels.map((i: number) => {
-      if (i === 1) {
-        return (
-          <Box
-            onClick={() => {
-              setLevelToShow(1);
-              setShowLevel(!showLevel);
+    return (
+      <>
+      <Flex gap={4}>
+      {levels.map(lvlnumber =>
+        <Box onClick={() => {
+              setLevelToShow(lvlnumber);
+              setShowLevel(!showLevel)
             }}
-            cursor="pointer"
-          >
-            <Folder
-              showLevel={showLevel}
-              levelToShow={levelToShow}
-              folderType="unlocked"
-              name={`Week ${i}`}
-              number={i}
-            />
-          </Box>
-        );
-      } 
-      // else if (
-      //   levelData[i - 2].every((level) => level.completed) &&
-      //   currentDate.getTime() > releaseDates[i - 2].getTime()
-      // ) 
-      else if ( currentDate.getTime() > releaseDates[i - 2].getTime()) {
-        return (
-          <Box
-            onClick={() => {
-              setLevelToShow(i);
-              setShowLevel(!showLevel);
-            }}
-            cursor="pointer"
-          >
-            <Folder
-              showLevel={showLevel}
-              levelToShow={levelToShow}
-              folderType="unlocked"
-              name={`Week ${i}`}
-              number={i}
-            />
-          </Box>
-        );
-      } else {
-        return (
-          <Box>
-            <Folder showLevel={showLevel} levelToShow={levelToShow} folderType="locked" name={`Week ${i}`} number={i} />
-          </Box>
-        );
-      }
-    });
+            cursor="pointer">
+              <Folder showLevel={showLevel} levelToShow={levelToShow} folderType='unlocked' name='test' number={lvlnumber}/>
+        </Box>
+      )}
+        </Flex>
+      </>
+    )
   };
+
+  const renderCourseParts = () => {
+    return (
+      <>
+      <Flex gap={4}>
+      <Box onClick={()=>setShowPart1(!showPart1)} cursor="pointer">
+        <Folder folderType='unlocked' number={1} showLevel={showLevel} levelToShow={levelToShow} name='Part 1'/>
+      </Box>
+      <Box onClick={()=>setShowPart2(!showPart2)} cursor="pointer">
+        <Folder folderType='unlocked' number={2} showLevel={showLevel} levelToShow={levelToShow} name='Part 2'/>
+      </Box>
+      </Flex>
+</>
+      
+    )
+  }
+
+  const renderPart1 = () => {
+    return (
+      <>
+      <p>Part1</p>
+      </>
+    )
+  } 
 
   if (showTutorial) {
     return <Tutorial setShowTutorial={setShowTutorial} />;
@@ -170,18 +162,7 @@ const Home = ({
           </GridItem>
 
           <GridItem rowSpan={1} colSpan={3} padding="3em 10em 2em 10em">
-            <Flex align="center" justify="space-between">
-              {/*<Box onClick={() => { setLevelToShow(1); setShowLevel(!showLevel)}}>
-                                <Folder showLevel={showLevel} levelToShow={levelToShow} folderType="unlocked" name="Week 1" number={1} />
-                            </Box>
-                            <Folder showLevel={showLevel} levelToShow={levelToShow} folderType="locked" name="Week 2" number={2} />
-                            <Folder showLevel={showLevel} levelToShow={levelToShow} folderType="locked" name="Week 3" number={3} />
-                            <Folder showLevel={showLevel} levelToShow={levelToShow} folderType="locked" name="Week 4" number={4} />
-                            <Folder showLevel={showLevel} levelToShow={levelToShow} folderType="locked" name="Week 5" number={5} />
-                            
-                            */}
-              {userDataFetched ? renderFolders() : <>Waiting on data</>}
-            </Flex>
+            {showPart2 ? renderFolders() : (showPart1 ? renderPart1() : renderCourseParts())}
           </GridItem>
         </Grid>
       </>
