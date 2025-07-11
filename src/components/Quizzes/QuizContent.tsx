@@ -3,7 +3,7 @@ interface QuizQuestion {
   question: string;
   options: string[];
   correctAnswer: string;
-  explanation: string;
+  explanation: {};
 }
 
 // explanation part needs to be changed
@@ -11,10 +11,13 @@ const Week1Quiz: QuizQuestion[] = [
   {
     id: 1,
     question: 'Which type of attack renders a website unusable for legitimate users?',
-    options: ['Denial of Service', 'Worm', 'Packet sniffing'],
+    options: ['Denial of Service', 'Worm', 'Packet Ssniffing'],
     correctAnswer: 'Denial of Service',
     explanation:
-      'When a DoS attack occurs, it can be stopped by identifying the host sending the traffic and terminating their connection to the server.\n\nWhen multiple sources generate traffic, it is classified as a Distributed Denial of Service (DDoS) attack.\n\nDDoS attacks are especially challenging to detect and defend against, as there can be many hosts.\n\nSome ways to prevent DoS attacks are by monitoring and analysing network traffic, and implementing a firewall and intrusion detection system.'
+      {'Denial of Service': 'When a DoS attack occurs, it can be stopped by identifying the host sending the traffic and terminating their connection to the server.\n\nWhen multiple sources generate traffic, it is classified as a Distributed Denial of Service (DDoS) attack.\n\nDDoS attacks are especially challenging to detect and defend against, as there can be many hosts.\n\nSome ways to prevent DoS attacks are by monitoring and analysing network traffic, and implementing a firewall and intrusion detection system.',
+        'Worm': 'Worm explained',
+        'Packet Sniffing': 'Packet sniffing explained'
+      }
   },
   {
     id: 2,

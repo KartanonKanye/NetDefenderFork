@@ -231,7 +231,7 @@ const RenderQuiz = ({
     
     if (success) {
       toast({
-        title: 'Good job!',
+        title: 'Quiz completed!',
         status: 'success',
         duration: 1500
       });
@@ -279,8 +279,12 @@ const RenderQuiz = ({
         </Grid>
       );
     }
-    // if question is answered, show correct answer and explanation
-    if (screenStage == 'information') {
+    // if question is answered, give an explanation why the answer is correct/wrong
+    if (screenStage == 'information' && selectedOption) {
+      var colour = "game.red";
+      if (selectedOption == currentQuestion.correctAnswer) {
+        colour = "game.green"
+      } 
       return (
         <Grid
           templateAreas={'"question" "explanation" "button" "steps"'}
@@ -299,18 +303,18 @@ const RenderQuiz = ({
           <GridItem area={'explanation'} justifySelf="center" w="50vw">
             <Box
               border="2px"
-              borderColor="game.green"
+              borderColor={colour}
               marginTop="10vh"
               px="5"
               py="2"
               textAlign="start"
               alignSelf="center"
             >
-              {alphabet[currentQuestion.options.indexOf(currentQuestion.correctAnswer)]}.{' '}
-              {currentQuestion.correctAnswer}
+              {alphabet[currentQuestion.options.indexOf(selectedOption)]}.{' '}
+              {selectedOption}
             </Box>
             <Box marginTop="5vh" fontSize="18">
-              {currentQuestion.explanation}
+              {currentQuestion.explanation[selectedOption]}
             </Box>
           </GridItem>
           <GridItem area={'button'} alignSelf="center" justifySelf="center">
@@ -323,11 +327,18 @@ const RenderQuiz = ({
       );
     }
     if (screenStage == 'end') {
+      var finish_message = "Good Job!";
+      if (score < 3) {
+        finish_message = "Please recap the material with flashcards and lecture slides. You got this!"
+      }
+      if (score == questions.length) {
+        finish_message = "Perfect score!"
+      }
       return (
         <Box display="flex" flexDir="column" alignItems="center" paddingTop="20">
           <Box border="4px" borderColor="game.white" width="50vw" display="flex" flexDir="column" alignItems="center">
             <Box padding="10" fontSize="24">
-              Good Job!
+              {finish_message}
             </Box>
             <Box paddingBottom="10">
               You answered {score}/{questions.length} correct
