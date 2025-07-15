@@ -119,7 +119,7 @@ const Week2Quiz: QuizQuestion[] = [
     correctAnswer: 'Message Authentication Codes (MAC)',
     explanation:{ 
       'Message Authentication Codes (MAC)': 'A secret key is used to hash each message, resulting in a digest known as the MAC. Only the sender and receiver are supposed to know this secret key. When the receiver obtains the message, along with the MAC, they use the secrey key to hash the message. If the hash matches the MAC, it means the message has not been tampered with.',
-      'Internet Checksum': 'This method is used for error detection, not to see if a message has been tampered with.',
+      'Internet Checksum': 'This method is used to check for errors or corruption in IPv4 packet headers, not to see if a message has been tampered with. IPv6 does not check the headers of packets for errors that use the TCP protocol, since it feels that the checksums in that layer are sufficient to detect errors',
       'RSA cryptography': 'RSA is an asymmetric key cryptography scheme that relies on prime numbers.',
       'Open shortest-path first (OSPF)': 'Dijkstra\'s algorithm is an example of an OSPF algorithm. These algorithms find the shortest distance between a starting node and all the other nodes in the network.'
     }
@@ -127,10 +127,13 @@ const Week2Quiz: QuizQuestion[] = [
   {
     id: 5,
     question: 'What is a shortcoming of Message Authentication Codes (MAC), as discussed in this week\'s materials?',
-    options: ['Senders are not authenticated', 'Secret is known only by sender and receiver', 'Hash is sent alongside message, making filesize large', 'Hash functions are not complex enough'],
+    options: ['Senders are not authenticated', 'Hash is sent alongside message, making the file too large', 'Hash functions are not complex enough'],
     correctAnswer: 'Senders are not authenticated',
-    explanation:
-    'Anyone with the secret key can send the correct MAC, so there is no way to authenticate the sender. For example, if secret keys of a company get leaked, attackers can pose as that company and send messages whose MACs match.'
+    explanation: {
+    'Senders are not authenticated': 'Anyone with the secret key can send the correct MAC, so there is no way to authenticate the sender. For example, if secret keys of a company get leaked, attackers can pose as that company and send messages whose MACs match.',
+    'Hash is sen alongside message, making filesize large': 'MD5 and all the SHA algorithms give a string of fixed size no matter the size of the input. Therefore, the file size does not increase so much as to be considered a shortcoming.',
+    'Hash functions are not complex enough': 'Some hash functions have been shown to be insecure but there are still hashing functions, such as SHA-3, that are still secure.'
+    }
   }
 ];
 
@@ -138,76 +141,122 @@ const Week3Quiz: QuizQuestion[] = [
   {
     id: 1, 
     question: 'Why can\'t MACs be used as digital signatures?',
-    options: ['Receiver would need a copy, so it would not be unique.', 'MAC is too large in size.', 'Not computationally feasible to use a MAC.'],
+    options: ['Receiver would need a copy, so it would not be unique.', 'MACs are collision resistant, so it is difficult to forge a signature', 'MACs are easy to compute'],
     correctAnswer: 'Receiver would need a copy, so it would not be unique.',
-    explanation: 'Digital Signatures need to be unique, verifiable and non-forgeable.'
+    explanation: { 
+    'Receiver would need a copy, so it would not be unique.': 'Digital Signatures need to be unique, verifiable and non-forgeable.',
+    'MACs are collision resistant, so it is difficult to forge a signature': 'While this is true, Digital signatures need to be verifiable, which means there must be some way the receiver of the signature can decode it. With MACs it\'s computationally infeasible to get the original input.',
+    'MACs are easy to compute': 'It is not difficult to compute MACs, but signatures need to be non-forgeable. Since all the hashing functions are well known and available to use by everyone, it is easy to create duplicates.'
+    }
   },
   {
     id: 2, 
     question: 'What is a digital signature?',
     options: ['Writing your name electronically.', 'Cryptographic technique to verify the identity of a sender.', 'Public key to encrypt an email.'],
     correctAnswer: 'Cryptographic technique to verify the identity of a sender.',
-    explanation: 'A message is encrypted with sender\'s private key. Receiver can decrypt it with sender\'s known public key, verifying that the message came from sender.'
+    explanation: { 
+     'Cryptographic technique to verify the identity of a sender.': 'A message is encrypted with sender\'s private key. Receiver can decrypt it with sender\'s known public key, verifying that the message came from sender.',
+     'Writing your name electronically.': 'How does this fulfill the three properties of a digital signature?',
+     'Public key to encrypt an email': 'Digital signatures use the private key of a Certified Authority (CA) and then all the people in the network have access to the CA\'s public key so they can verify that the signature indeed came from the CA.'
+    }
   },
   {
     id: 3, 
     question: 'What has been implemented to enable end-point authentication?',
-    options: ['Caesar Cipher', 'Certified Authorities', 'PGP Keys', 'API endpoints'],
+    options: ['Caesar Cipher', 'Certified Authorities', 'API endpoints'],
     correctAnswer: 'Certified Authorities',
-    explanation: 'Certified Authority (CA) is a trusted third-party that generates a certificate to verify the sender\'s public key.'
+    explanation: { 
+    'Certified Authorities': 'Certified Authority (CA) is a trusted third-party that generates a certificate to verify the sender\'s public key.',
+    'Caesar Cipher': 'This was a symmetric key cryptography system, with one shared key among all the users of the network.',
+    'API endpoints': 'Application Programming Interface (API) endpoints can be considered as the URL addresses where the HTTP requests are sent. The server then responds to the client that sent the request. APIs are not used for end-point authentication, but for allowing different software applications to exchange data.'
+    }
   },
   {
     id: 4, 
-    question: 'How do Certified Authorities help with end-point authentication?',
+    question: 'How do Certified Authorities (CA) help with end-point authentication?',
     options: ['Receiver can use copy of sender\'s private key to decrypt message', 'Receiver can use a CA-issued certificate, along with the sender\'s public key to authenticate the sender of a message.', 'Certified Authorities use a MAC to encrypt a sender\'s message'],
     correctAnswer: 'Receiver can use a CA-issued certificate, along with the sender\'s public key to authenticate the sender of a message.',
-    explanation: 'Since the CA is a trusted third-party, the receiver can verify that the message indeed came from the sender, by comparing the public key of the message to the public key in the CA-certificate.'
+    explanation: { 
+      'Receiver can use a CA-issued certificate, along with the sender\'s public key to authenticate the sender of a message.': 'Since the CA is a trusted third-party, the receiver can verify that the message indeed came from the sender, by comparing the public key of the message to the public key in the CA-certificate.',
+      'Receiver can use copy of sender\'s private key to decrypt message': 'Private keys should never be shared with anyone, not even with the trusted authority.',
+      'Certified Authorities use a MAC to encrypt a sender\'s message': 'There is no computationally feasible way to verify that the MAC came from the CA'
+    }  
   },
+  {
+    id: 5, 
+    question: 'How can the recipient of the certificate check that it was signed by the Certified Authority (CA)?',
+    options: ['The receiver of the certificate uses their private key to decrypt the certificate', 'They check the IP address of the packet they received and see if it belongs to their web of trust', 'The receiver can use the CA\'s public key to decrypt the certificate'],
+    correctAnswer: 'The receiver can use the CA\'s public key to decrypt the certificate',
+    explanation: { 
+      'The receiver of the certificate uses their private key to decrypt the certificate': 'The certificate was not encrypted by the receiver\'s public key, so there is no way to decrypt it with the private key of the receiver.',
+      'They check the IP address of the packet containing the certificate and see if it belongs to their web of trust': 'IP spoofing could have possibly been used to insert the IP address of the CA.',
+      'The receiver can use the CA\'s public key to decrypt the certificate': 'The certificate was signed by the private key of the CA. Therefore, the public key of the CA is the only one that can decrypt the signature and everybody on the network has access to the CA\'s public key.'
+    } 
+  }
+  
 ];
 
 const Week4Quiz: QuizQuestion[] = [
   {
     id: 1, 
     question: 'Why are nonces used in SSL?',
-    options: ['To protect handshake from tampering', 'To prevent connection replay attacks', 'MACs are too large in size', 'To prevent truncation attacks'],
+    options: ['To protect users from handshake tampering', 'To prevent connection replay attacks', 'MACs are too large in size', 'To prevent truncation attacks'],
     correctAnswer: 'To prevent connection replay attacks',
-    explanation: 'A replay attack involves an attacker capturing valid network transmission. The aim is to trick the system into accepting this transmission as a valid one, at a later time. By using nonces, each valid transmission can only be performed once, as a new nonce will be generated every time.'
+    explanation: { 
+    'To prevent connection replay attacks': 'A replay attack involves an attacker capturing valid network transmission. The aim is to trick the system into accepting this transmission as a valid one, at a later time. By using nonces, each valid transmission can only be performed once, as a new nonce will be generated every time.',
+    'To protect users from handshake tampering': 'A MAC is computed for each handshake message, ensuring that it has not been tampered with.',
+    'MACs are too large in size': 'MACs are used in establishing a SSL connection. They are attached to each message, to ensure that no tampering has occured',
+    'To prevent truncation attacks': 'Truncation attacks are a type of attack where a outside party can send a FIN message to close the connection prematurely. These attacks are prevented by forcing both parties to agree to close the connection.'
+    }
   },
   {
     id: 2, 
     question: 'Why are MACs computed for all handshake messages?',
     options: ['To protect handshake from tampering', 'To prevent connection replay attacks', 'MACs are too large in size', 'To prevent truncation attacks'],
     correctAnswer: 'To protect handshake from tampering',
-    explanation: 'During the SSL handshake, the client and server exchange messages to negotiate parameters, authenticate each other, and establish a secure connection. In order to ensure that messages have not been tampered in transit and to authorize both parties, MACs are computed for all handshake messages. '
+    explanation: { 
+    'To prevent connection replay attacks': 'A replay attack involves an attacker capturing valid network transmission. The aim is to trick the system into accepting this transmission as a valid one, at a later time. By using nonces, each valid transmission can only be performed once, as a new nonce will be generated every time.',
+    'To protect users from handshake tampering': 'A MAC is computed for each handshake message, ensuring that it has not been tampered with.',
+    'MACs are too large in size': 'MACs are used in establishing a SSL connection. They are attached to each message, to ensure that no tampering has occured',
+    'To prevent truncation attacks': 'Truncation attacks are a type of attack where a outside party can send a FIN message to close the connection prematurely. These attacks are prevented by forcing both parties to agree to close the connection.'
+    }
   },
   {
     id: 3, 
     question: 'Why is "SSL connection close" needed, in addition to TCP FIN?',
     options: ['To protect handshake from tampering', 'To prevent connection replay attacks', 'MACs are too large in size', 'To prevent truncation attacks'],
     correctAnswer: 'To prevent truncation attacks',
-    explanation: 'It is possible for an attacker to close the connection before it is actually finished, via a truncation attack. This is done by inserting a TCP code into a message, indicating the message has finished, thus preventing the recipient picking up the rest of the message. Requiring "SSL Connection Close" prevents against this type of attack.'
+    explanation:{ 
+    'To prevent truncation attacks': 'It is possible for an attacker to close the connection before it is actually finished, via a truncation attack. This is done by inserting a TCP code into a message, indicating the message has finished, thus preventing the recipient picking up the rest of the message. With SSL connection close, both parties must agree to close the connection.',
+    'To protect users from handshake tampering': 'A MAC is computed for each handshake message, ensuring that it has not been tampered with.',
+    'MACs are too large in size': 'MACs are used in establishing a SSL connection. They are attached to each message, to ensure that no tampering has occured',
+    'To prevent connection replay attacks': 'A replay attack involves an attacker capturing valid network transmission. The aim is to trick the system into accepting this transmission as a valid one, at a later time. By using nonces, each valid transmission can only be performed once, as a new nonce will be generated every time.'
+    }
   },
   {
     id: 4, 
-    question: 'What is implemented as a protection against packet re-ordering?',
-    options: ['Message Authentication Codes (MACs)', 'Sequence Numbers', 'Secure Sockets Layer (SSL)', 'Packet Sniffing'],
-    correctAnswer: 'Sequence Numbers',
-    explanation: 'Packets can get lost or arrive out of the intended order. Sequence numbers allows packets to be rearranged into the correct order at the destination, if they arrive out-of-order.'
+    question: 'Which of the following is not part of the SSL handshake?',
+    options: ['Establishing TCP connection', 'Generating a Master Key', 're-ordering packets', 'Verifying identity of communication partner'],
+    correctAnswer: 'Truncating and re-ordering packets',
+    explanation: {
+    're-ordering packets': 'The SSL handshake involves establishing a TCP connection, verifying the identity of the communication partner and generating a master key. Packet re-ordering is handled by the TCP protocol.',
+    'Establishing TCP connection': 'This is the first step that is taken, after which both parties verify each other\'s identities and then generate a shared master key.',
+    'Generating a Master Key': 'This is the third step in the SSL handshake. The shared master key is used to create four session keys, which are used to for encryption and message integrity.',
+    'Verifying identity of communication partner': 'This is the second step in the SSL handshake. The authentication of both parties is usually accomplished with signed digital certificates.'
+    }
   },
   {
     id: 5, 
-    question: 'Which of the following is not part of the SSL handshake?',
-    options: ['Establishing TCP connection', 'Generating a Master Key', 'Truncating and re-ordering packets', 'Verifying identity of communication partner'],
-    correctAnswer: 'Truncating and re-ordering packets',
-    explanation: 'The SSL handshake involves establishing a TCP connection, verifying the identity of the communication partner and generating a master key'
-  },
-  {
-    id: 6, 
-    question: 'Which of the following is not a feature of PGP?',
+    question: 'Which of the following is not a feature of Pretty Good Privacy (PGP)?',
     options: ['Utilizes the Web of Trust model', 'It is decentralized', 'Messages are encrypted and signed', 'A user can only send messages to their trusted contacts'],
     correctAnswer: 'A user can only send messages to their trusted contacts',
-    explanation: 'PGP utilizes the Web of Trust model, meaning that users can have trusted contacts. This model also allows users to see trusted contacts of their trusted contacts. As such, users can verify and send messages to others outside of their trusted contacts, by relying on chains of trust.'
-  },
+    explanation: { 
+    'A user can only send messages to their trusted contacts': 'PGP utilizes the Web of Trust model, meaning that users can have trusted contacts. It would be hard to grow your list of contacts if you could only send messages to ones you trust. If a user wants to communicate with someone outside of their list of trusted contacts, they can see if the new contact is trusted by someone else in their contacts, and then this can be used to authenticate a new contact. ',
+    'Utilizes the Web of Trust model': 'PGP does use the Web of Trust to authenticate people on the network. It is a decentralised method where users authenticate each other through trusted contacts, instead of one centralised authority giving digital certificates.',
+    'It is decentralized': 'There is no certified authority in the PGP model.',
+    'Messages are encrypted and signed': 'PGP does encypt and sign messages. This takes care of confidentiality and authentication.'
+    }
+  }
 ];
 
 const Week5Quiz: QuizQuestion[] = [
@@ -216,43 +265,60 @@ const Week5Quiz: QuizQuestion[] = [
     question: 'How do Private Networks (PNs) and Virtual Private Networks (VPNs) differ?',
     options: ['PN traffic goes through public internet', 'VPNs implement physical networks with routers, links and DNS infrastructure', 'VPN traffic goes through the public internet', 'PN incorporates Diffie-Hellman key exchange'],
     correctAnswer: 'VPN traffic goes through the public internet',
-    explanation: 'VPN traffic is transmitted via the public internet, eliminating the need for physical network infrastructure and their high maintenance costs.'
+    explanation: { 
+    'VPN traffic goes through the public internet': 'VPN traffic is transmitted via the public internet, eliminating the need for physical network infrastructure and their high maintenance costs.',
+    'PN traffic goes through public internet': 'Usually the purpose of bulding a private network is to ensure that the data in the network stays within the network.',
+    'VPNs implement physical networks with routers, links and DNS infrastructure': 'VPNs do not implement a physical network. They encrypt IP packets and then send them over the public internet.',
+    'PN incorporates Diffie-Hellman key exchange': 'The Diffie-Hellman key exchange is used by VPNs so that the sender and receiver can agree on a shared key without any third party knowing what the key is. This shared key is then used for encryption.'
+    }
   },
   {
     id: 2, 
     question: 'What is a benefit of using Stateful Filters?',
     options: ['It implements user authentication states in an application', 'It identifies packets that might get through stateless filters and cause harm to system', 'It allows application-specific rules for different users'],
     correctAnswer: 'It identifies packets that might get through stateless filters and cause harm to system',
-    explanation: 'For example, packets with ACK=1 and source port 80 get through the filter and could be used to crash local systems with malformed ACK packets.'
-  },
+    explanation: { 
+     'It identifies packets that might get through stateless filters and cause harm to system': 'For example, packets with ACK=1 and source port 80 get through the filter and could be used to crash local systems with malformed ACK packets.',
+     'It implements user authentication states in an application': 'A stateful filter is a type of firewall with the job of controlling the traffic between the network and the public internet. It does not take care of authentication.',
+     'It allows application-specific rules for different users': 'This is accomplished with application gateways, not with a stateful filter.'
+    }
+    },
   {
     id: 3, 
     question: 'What is implemented during IPsec key management?',
     options: ['Diffie-Hellman key exchange', 'PGP', 'Web of Trust', 'Secure Sockets Layer (SSL)'],
     correctAnswer: 'Diffie-Hellman key exchange',
-    explanation: 'Diffie-Hellman key exchange is implemented to establish a master key between entities. This takes place as a bi-directional Internet Key Exchange (IKE) Security Association (SA).'
+    explanation: { 
+    'Diffie-Hellman key exchange': 'Diffie-Hellman key exchange is implemented to establish a master key between entities. This takes place as a bi-directional Internet Key Exchange (IKE) Security Association (SA).',
+    'PGP': 'The PGP model does include key management, but it is not the only component of PGP.',
+    'Web of Trust': 'In a Web of Trust, users can authenticate eacht other through chains of trust, instead of a centralised authority.',
+    'Secure Sockets Layer (SSL)': 'This is one of the Internet security protocols where one of the steps is to generate a master key. However, there are two other steps in addition to generate the master key.'
+    }
   },
   {
     id: 4, 
     question: 'What is a disadvantage of using Application Gateways?',
-    options: ['Malformatted packets can get through filter and cause harm to system', 'Performance is negatively affected, since all traffic must go through', 'Allows application-specific rules for differrent users', 'Implements user authentication states in an application'],
+    options: ['Malformatted packets can get through the filter and cause harm to system', 'Performance is negatively affected, since all traffic must go through', 'Allows application-specific rules for differrent users', 'Implements user authentication in an application'],
     correctAnswer: 'Performance is negatively affected, since all traffic must go through',
-    explanation: 'This can serve as a bottleneck in systems, causing traffic to take more time before it gets to the destination.'
+    explanation: { 
+    'Performance is negatively affected, since all traffic must go through': 'This can serve as a bottleneck in systems, causing traffic to take more time before it gets to the destination.',
+    'Malformatted packets can get through the filter and cause harm to system': 'If there was a malformatted packet it would be dropped by a lower layer or spotted with the internet checksum in IPv4. If there was an instance of IP packet tampering, then the application gateway will spot it and prevent the packet from arriving at the network.',
+    'Allows application-specific rules for differrent users': 'This is what application gateways are set up for. Some applications and users can get special permissions with application gateways.',
+    'Implements user authentication in an application': 'Application gateways are a type of firewall and therefore do not take care of authenticating users.'
+    }
   },
   {
     id: 5, 
     question: 'Which of the following is not a step in Diffie-Hellman key exchange?',
-    options: ['Both parties publicly agree and choose a secret', 'One party sets a packet header bit, so that it might get through a stateless filter', 'Each party performs modular arithmetic using the modulus, base and secret and send it to the other party', 'Each party derives a key which can be used to encrypt messages to each other'],
+    options: ['Both parties publicly agree and choose a secret', 'One party sets a packet header bit, so that it might get through a stateless filter', 'Each party performs modular arithmetic using the modulus, base and secret exponent and send it to the other party', 'Each party derives a key which can be used to encrypt messages to each other'],
     correctAnswer: 'One party sets a packet header bit, so that it might get through a stateless filter',
-    explanation: 'In Diffie-Hellman key exchange, both parties publicly agree on a modulus and a base and individually choose a secret. They perform modular arithmetic using the modular, base and secret and send the result to the other party. Each party then performs modular arithmetic on the received value. In this way, they each derive a key which can be used to encrypt and decrypt messages to each other.'
-  },
-  {
-    id: 6, 
-    question: 'Which of the following is not a type of firewall?',
-    options: ['Application Gateway', 'Stateful filter', 'Packet Filter', 'Port-forwarding'],
-    correctAnswer: 'Port-forwarding',
-    explanation: 'There are three categories of firewalls: Packet filters, Stateful filters and Application gateways.'
-  },
+    explanation: {
+     'One party sets a packet header bit, so that it might get through a stateless filter': 'In Diffie-Hellman key exchange, both parties publicly agree on a modulus and a base and individually choose a secret. They perform modular arithmetic using the modular, base and secret and send the result to the other party. Each party then performs modular arithmetic on the received value. In this way, they each derive a key which can be used to encrypt and decrypt messages to each other.',
+     'Both parties publicly agree and choose a secret': 'This is the first part of the key exchange. In Diffie-Hellman, the shared secret is the base and the modulus, and the private secret is the power to which the base is raised.',
+     'Each party performs modular arithmetic using the modulus, base and secret exponent and send it to the other party': 'This is the second part of the key exchange. Since the order of raising a number to a certain power does not matter, both parties end up with the same master key.',
+     'Each party derives a key which can be used to encrypt messages to each other': 'The final step of the key exchange. After both parties have derived the shared master key, they can begin to encrypt the messages they want to send to each other.'
+    }
+    }
 ]
 
 export type { QuizQuestion };
