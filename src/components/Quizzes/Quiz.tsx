@@ -3,6 +3,7 @@ import { Box, Button } from '@chakra-ui/react';
 import RenderQuiz from './RenderQuiz.tsx'
 import { Week1Quiz, Week2Quiz, Week3Quiz, Week4Quiz, Week5Quiz } from './QuizContent.tsx';
 import { QuizQuestion } from './QuizContent.tsx';
+import userDataService from '../../services/userDataService';
 
 const Quiz = ({ weekNumber, taskID }: { weekNumber: number; taskID: string }) => {
   let questions: QuizQuestion[];
@@ -20,6 +21,23 @@ const Quiz = ({ weekNumber, taskID }: { weekNumber: number; taskID: string }) =>
 
   // Function to render the information on the screen.
   const renderScreen = () => {
+    const userAuthDataJSON = window.localStorage.getItem('userAuthDataJSON');
+    async function check_attempt() {
+      if (userAuthDataJSON) {
+        const user = JSON.parse(userAuthDataJSON);
+        const userAuthData = user;
+        const userData = await userDataService.getUserData({
+          userId: userAuthData.user_id,
+          userToken: userAuthData.token
+        });
+        const attempt_time = userData.levels[weekNumber-1][0].time_of_attempt;
+        if (attempt_time) {
+          const curr_time = new Date();
+          curr_time.
+          const time_diff = curr_time - attempt_time
+        }
+    }
+  }
     switch (currentScreen) {
       // If current screen is the start screen, text and a start button will be shown
       case 'startScreen':

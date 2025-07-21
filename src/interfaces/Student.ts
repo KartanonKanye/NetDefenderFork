@@ -8,13 +8,13 @@ export interface IStudent {
   points: number;
   levels: [
     [
-      { id: string; completed: boolean; points: number; name: string },
-      { id: string; completed: boolean; points: number; name: string }
+      { id: string; completed: boolean; points: number; name: string; time_of_attempt?: Date },
+      { id: string; completed: boolean; points: number; name: string; time_of_attempt?: Date }
     ],
-    [{ id: string; completed: boolean; points: number; name: string }],
-    [{ id: string; completed: boolean; points: number; name: string }],
-    [{ id: string; completed: boolean; points: number; name: string }],
-    [{ id: string; completed: boolean; points: number; name: string }]
+    [{ id: string; completed: boolean; points: number; name: string; time_of_attempt?: Date }],
+    [{ id: string; completed: boolean; points: number; name: string; time_of_attempt?: Date }],
+    [{ id: string; completed: boolean; points: number; name: string; time_of_attempt?: Date }],
+    [{ id: string; completed: boolean; points: number; name: string; time_of_attempt?: Date }]
   ];
   id: string;
 }

@@ -147,7 +147,7 @@ const App = () => {
           />
           <Route path="quiz2" element={<Quiz weekNumber={2} taskID={'quiz2'} />} />
           <Route path="task2" element={<LevelRSA weekNumber={2} taskID={'task2'} />} />
-          <Route path="taskDjikstra" element={<LevelDijkstra weekNumber={2} taskID={'taskDjikstra'} />} />
+          <Route path="taskDijkstra" element={<LevelDijkstra weekNumber={2} taskID={'taskDijkstra'} />} />
           <Route
             path="flashcards3-digital"
             element={<Flashcard content={FlashcardData.week3_digital_signatures} weekNumber={3} taskID={'flashcards3-digital'} />}

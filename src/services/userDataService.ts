@@ -64,6 +64,7 @@ const updateUserData = async ({ userId, userToken, userData }: IUpdateUserDataPr
         if (!currentTask.completed) {
           if (updatedUserData.levels[weekNumber - 1].find((obj) => obj.id === taskID)) {
             updatedUserData.levels[weekNumber - 1].find((obj) => obj.id === taskID)!.completed = true;
+            updatedUserData.levels[weekNumber - 1].find((obj) => obj.id === taskID)!.time_of_attempt = new Date();
           }
         }
 

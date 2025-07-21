@@ -4,6 +4,7 @@ interface QuizQuestion {
   options: string[];
   correctAnswer: string;
   explanation: {};
+  completed?: Date 
 }
 
 // explanation part needs to be changed
@@ -67,7 +68,7 @@ const Week1Quiz: QuizQuestion[] = [
     explanation: {
       'End-point Authentication': 'When we have implemented end-point authentication every actor and device on the network is legitimate. Any illegitimate device that tries to spoof the address of it\'s packets will be spotted. This will be explained later in the course.',
       'IP Spoofing': 'Masquerading is accomplished with IP spoofing. This is the act of injecting a packet with a fake source and destination address and harmful content.',
-      'Packet Inspection': 'When we inspect a packet, how can we tell if the addresses in it\'s header are legitimate? We need some other method to make sure the packet actually comes from the device it claim',
+      'Packet Inspection': 'When we inspect a packet, how can we tell if the addresses in it\'s header are legitimate? We need some other method to make sure the packet actually comes from the device it claims',
       'DDoS Attacks': 'This is a type of attack where a botnet floods the network with requests so legitimate users can\'t access it.'
     }
     }
